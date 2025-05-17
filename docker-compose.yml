@@ -1,0 +1,24 @@
+services:
+    app:
+        build: .
+        ports:
+            - "8000:9000"
+        volumes:
+            - .:/var/www
+        environment:
+            - APP_ENV=local
+        depends_on:
+            - mysql
+    mysql:
+        image: mysql:8.0
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: task_manager
+        ports:
+            - "3306:3306"
+    node:
+        image: node:20
+        working_dir: /var/www
+        volumes:
+            - .:/var/www
+        command: npm run dev
